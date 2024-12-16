@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "koa": "^2.15.3",
     "koa-body": "^6.0.1",
     "koa-router": "^13.0.1",

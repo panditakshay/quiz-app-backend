@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { createQuiz, getQuiz } from '../controllers/quizController';
+import { createQuiz, getQuiz, getResults, submitAnswer } from '../controllers/quizController';
 
 const router = new Router();
 
@@ -57,5 +57,76 @@ router.post('/', createQuiz); // Create a quiz
  *         description: Quiz not found
  */
 router.get('/:id', getQuiz);  // Get a quiz by ID
+
+/**
+ * @swagger
+ * /quiz/{id}/answers:
+ *   post:
+ *     summary: Submit an answer for a question in the quiz
+ *     description: Submit an answer to a specific question and get feedback if the answer is correct
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Quiz ID
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               questionId:
+ *                 type: string
+ *               selectedOption:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Answer submitted with feedback
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 isCorrect:
+ *                   type: boolean
+ *                 correctOption:
+ *                   type: integer
+ *       404:
+ *         description: Quiz or question not found
+ */
+router.post('/:id/answers', submitAnswer); // Submit an answer for a question
+
+/**
+ * @swagger
+ * /quiz/score/{id}:
+ *   get:
+ *     summary: Get the total score of a user
+ *     description: Get the total score of a user across all quizzes
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Total score of the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 score:
+ *                   type: integer
+ *       404:
+ *         description: User not found
+ */
+router.get('/score/:id', getResults); // Get total score for a user
 
 export default router;
