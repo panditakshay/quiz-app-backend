@@ -22,8 +22,7 @@ class QuizController {
       ctx.status = 201;
       ctx.body = newQuiz;
     } catch (error: any) {
-      console.log('Error', error);
-      ctx.status = 400;
+      ctx.status = 500;
       ctx.body = { error: error.message };
     }
   }
@@ -40,7 +39,7 @@ class QuizController {
         ctx.body = quiz;
       }
     } catch (error: any) {
-      ctx.status = 400;
+      ctx.status = 500;
       ctx.body = { error: error.message };
     }
   }
@@ -54,8 +53,13 @@ class QuizController {
       ctx.status = 200;
       ctx.body = result;
     } catch (error: any) {
-      ctx.status = 400;
-      ctx.body = { error: error.message };
+      if (error.message === 'Quiz not found.' || error.message === 'Question not found.') {
+        ctx.status = 404;
+        ctx.body = { error: error.message };
+      } else {
+        ctx.status = 500;
+        ctx.body = { error: error.message };
+      }
     }
   }
 
@@ -66,12 +70,12 @@ class QuizController {
       const results = this.quizService.getResults(userId);
       ctx.status = 200;
       ctx.body = {
-        user: results.user,
+        userId: results.userId,
         score: results.score,
         quizzes: results.quizzes as QuizResult[],
       };
     } catch (error: any) {
-      ctx.status = 400;
+      ctx.status = 500;
       ctx.body = { error: error.message };
     }
   }

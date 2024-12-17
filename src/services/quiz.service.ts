@@ -1,4 +1,6 @@
 import { Answer, Quiz, SanitizedQuestion } from '../types/quiz';
+import { generateSequentialId, removeAnswersBeforeDisplaying, validateAndGenerateQuestions } from '../utils/utils';
+import { validateAndMarkQuestionAnswered, validateAnswerSubmissionInput, validateQuizCreate, validateSelectedOption } from '../utils/validation';
 
 class QuizService {
     // Mock in-memory database (as per requirement doc)
@@ -11,25 +13,14 @@ class QuizService {
     
     
     public createQuiz(title: string, questions: Quiz['questions']) {
-        if (!title || !questions || questions.length === 0) {
-            throw new Error('Invalid input data.');
-        }
 
-        // Validate correctOption and generate IDs
-        const quizQuestions: Quiz['questions'] = questions.map((question, index) => {
-            if (question.correctOption === 0) {
-                throw new Error(`Question ${index + 1}: correctOption cannot be 0.`);
-            }
+        // Validate create quiz body params
+        validateQuizCreate(title, questions);
 
-            return {
-                ...question,
-                id: String(index + 1), // Generate sequential ID starting from 1
-            };
-        });
-
-        const id = String(this.quizzes.size + 1); // Generate sequential ID starting from 1
-        const newQuiz: Quiz = { id, title, questions: quizQuestions };
-        this.quizzes.set(id, newQuiz);
+        const quizQuestions = validateAndGenerateQuestions(questions);
+        const id = generateSequentialId(this.quizzes); // Generate sequential ID starting from 1 for each quiz added
+        const newQuiz: Quiz = { id, title, questions: quizQuestions }; // Define quiz structure
+        this.quizzes.set(id, newQuiz); // Add defined quiz with structure to database (in-memory)
         return newQuiz;
     }
 
@@ -39,19 +30,14 @@ class QuizService {
             return null;
         }
 
-        // Remove correct answers before sending response
-        const sanitizedQuiz = {
-            ...quiz,
-            questions: quiz.questions.map(({ correctOption, ...rest }) => rest),
-        };
-        return sanitizedQuiz
+        // Sanitize quiz questions and display
+        return removeAnswersBeforeDisplaying(quiz);
     }
 
     submitAnswer(quizId: string, questionId: string, selectedOption: number, userId: string) {
-        // Validate input
-        if (!userId || !quizId || !questionId) {
-            throw new Error('Missing required fields.');
-        }
+
+        // Validate submit answer body params
+        validateAnswerSubmissionInput(userId, questionId, quizId, selectedOption);
 
         // Get the quiz
         const quiz = this.quizzes.get(quizId);
@@ -62,16 +48,11 @@ class QuizService {
         // Find the question
         const question = quiz.questions.find(q => q.id === questionId);
         if (!question) {
-            throw new Error('Question not found.'); 
+            throw new Error('Question not found.');
         }
 
-        // Validate the selected option
-        if (typeof selectedOption === 'string') {
-           throw new Error('Only Integer value accepted in selectedOption.');
-        }
-        if (selectedOption < 1 || selectedOption >= question.options.length) {
-            throw new Error('Invalid selected option.');
-        }
+        // Validate the selected option and compare with question's options length
+        validateSelectedOption(selectedOption, question);
 
         // Initialize userAttempts for the user if it doesn't exist
         if (!this.quizAttemptsByUser.has(userId)) {
@@ -88,9 +69,7 @@ class QuizService {
         const quizAttempt = userAttempts.get(quizId)!;
 
         // Check if the question has already been answered
-        if (quizAttempt.answers.some(answer => answer.questionId === questionId)) {
-            throw new Error('Question has already been answered.');
-        }
+        validateAndMarkQuestionAnswered(quizAttempt, questionId);
 
         // Check if the answer is correct
         const isCorrect = question.correctOption === selectedOption;
@@ -110,7 +89,7 @@ class QuizService {
         // Check if the user has attempted any quizzes
         const userAttempts = this.quizAttemptsByUser.get(userId);
         if (!userAttempts) {
-           throw new Error('This User has not attempted any quizzes.');
+           throw new Error('The User attempt for the quiz not found.');
         }
 
         // Initialize collective score and quiz results
@@ -135,7 +114,7 @@ class QuizService {
 
         // Return results
         return {
-            user: userId,
+            userId: userId,
             score: collectiveScore,
             quizzes: quizzesResults,
         }
