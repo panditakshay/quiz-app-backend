@@ -1,26 +1,38 @@
 export interface Question {
-    id: string;
-    text: string;
-    options: string[];
-    correctOption: number; // index of the correct option
-  }
+  id: string;
+  text: string;
+  options: string[];
+  correctOption: number; // index of the correct option
+}
   
-  export interface Quiz {
-    id: string;
-    title: string;
-    questions: Question[];
-  }
+export interface Quiz {
+  id: string;
+  title: string;
+  questions: Question[];
+}
   
-  export interface Answer {
-    questionId: string;
-    selectedOption: number;
-    isCorrect: boolean;
-  }
+export interface Answer {
+  questionId: string;
+  selectedOption: number;
+  isCorrect: boolean;
+}
   
-  export interface Result {
-    quizId: string;
-    userId: string;
-    score: number;
-    answers: Answer[];
-  }
+export interface Result {
+  quizId: string;
+  userId: string;
+  score: number;
+  answers: Answer[];
+}
+
+export interface SanitizedQuestion {
+  id: string;
+  text: string;
+  options: string[];
+}
+
+export interface QuizResult {
+  quizId: string;
+  score: number;
+  answers: Answer[];
+}
   
