@@ -1,5 +1,5 @@
-import { Answer, Quiz, SanitizedQuestion } from '../types/quiz';
-import { generateSequentialId, removeAnswersBeforeDisplaying, validateAndGenerateQuestions } from '../utils/utils';
+import { Answer, Quiz } from '../types/quiz';
+import { findQuestionFromQuizzes, generateSequentialId, removeAnswersBeforeDisplaying, validateAndGenerateQuestionIds } from '../utils/utils';
 import { validateAndMarkQuestionAnswered, validateAnswerSubmissionInput, validateQuizCreate, validateSelectedOption } from '../utils/validation';
 
 class QuizService {
@@ -12,12 +12,12 @@ class QuizService {
     private quizAttemptsByUser: Map<string, Map<string, { answers: Answer[], quizId: string }>> = new Map();
     
     
-    public createQuiz(title: string, questions: Quiz['questions']) {
+    createQuiz(title: string, questions: Quiz['questions']) {
 
         // Validate create quiz body params
         validateQuizCreate(title, questions);
 
-        const quizQuestions = validateAndGenerateQuestions(questions);
+        const quizQuestions = validateAndGenerateQuestionIds(questions);
         const id = generateSequentialId(this.quizzes); // Generate sequential ID starting from 1 for each quiz added
         const newQuiz: Quiz = { id, title, questions: quizQuestions }; // Define quiz structure
         this.quizzes.set(id, newQuiz); // Add defined quiz with structure to database (in-memory)
@@ -39,18 +39,8 @@ class QuizService {
         // Validate submit answer body params
         validateAnswerSubmissionInput(userId, questionId, quizId, selectedOption);
 
-        // Get the quiz
-        const quiz = this.quizzes.get(quizId);
-        if (!quiz) {
-            throw new Error('Quiz not found.');
-        }
-
-        // Find the question
-        const question = quiz.questions.find(q => q.id === questionId);
-        if (!question) {
-            throw new Error('Question not found.');
-        }
-
+        const question = findQuestionFromQuizzes(this.quizzes, quizId, questionId);
+        
         // Validate the selected option and compare with question's options length
         validateSelectedOption(selectedOption, question);
 

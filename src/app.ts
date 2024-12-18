@@ -9,15 +9,17 @@ import { swaggerSpec } from './swaggerConfig';
 const app = new Koa();
 const router = new Router();
 
-// Serve Swagger UI at /docs endpoint
-app.use(
+if (process.env.NODE_ENV !== 'test') {
+  // Serve Swagger UI at /docs endpoint
+  app.use(
     koaSwagger({
-        routePrefix: '/docs', // Swagger UI will be available at /docs
-        swaggerOptions:{
-            spec: swaggerSpec as Record<string, any>
-        }
+      routePrefix: '/docs', 
+      swaggerOptions: {
+        spec: swaggerSpec as Record<string, any>,
+      },
     })
   );
+}
 
 // Middleware
 app.use(bodyParser());
@@ -31,6 +33,7 @@ app.use(router.routes()).use(router.allowedMethods());
 export default app;
 
 // Start the server
+// Can add custom PORT in .env
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

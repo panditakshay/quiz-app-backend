@@ -1,5 +1,5 @@
 import { Quiz } from "../types/quiz";
-import { validateCorrectOption } from "./validation";
+import { validateCorrectOption, validateQuestion, validateQuiz } from "./validation";
 
 function generateSequentialId(existingMap: Map<string, any>) {
     return String(existingMap.size + 1);
@@ -12,7 +12,7 @@ function removeAnswersBeforeDisplaying(quiz: Quiz) {
     }
 }
 
-function validateAndGenerateQuestions(questions: Quiz['questions']) {
+function validateAndGenerateQuestionIds(questions: Quiz['questions']) {
     return questions.map((question, index) => {
         validateCorrectOption(question, index); 
         return {
@@ -22,6 +22,18 @@ function validateAndGenerateQuestions(questions: Quiz['questions']) {
     });
 }
 
-// function initialize
+function findQuestionFromQuizzes(quizzes: Map<string, Quiz>, quizId: string, questionId: string){
+    const quiz = quizzes.get(quizId)!;
+    validateQuiz(quiz);
+    const question = quiz.questions.find(q => q.id === questionId)!;
+    validateQuestion(question);
+    return question;
 
-export { generateSequentialId, removeAnswersBeforeDisplaying, validateAndGenerateQuestions };
+}
+
+export { 
+    generateSequentialId, 
+    removeAnswersBeforeDisplaying, 
+    validateAndGenerateQuestionIds, 
+    findQuestionFromQuizzes 
+};

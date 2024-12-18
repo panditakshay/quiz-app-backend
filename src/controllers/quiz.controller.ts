@@ -22,8 +22,22 @@ class QuizController {
       ctx.status = 201;
       ctx.body = newQuiz;
     } catch (error: any) {
-      ctx.status = 500;
-      ctx.body = { error: error.message };
+
+      switch (error.message) {
+        case 'Invalid input data.':
+          ctx.status = 400;
+          ctx.body = { error: error.message };
+          break;
+        default:
+          if(error.message.includes('correctOption cannot be 0.') || error.message.includes('correctOption must be a number.')) {
+            ctx.status = 400;
+            ctx.body = { error: error.message };
+          } else {
+            ctx.status = 500;
+            ctx.body = { error: error.message };
+          }
+          break;
+      }
     }
   }
 
@@ -53,12 +67,18 @@ class QuizController {
       ctx.status = 200;
       ctx.body = result;
     } catch (error: any) {
-      if (error.message === 'Quiz not found.' || error.message === 'Question not found.') {
-        ctx.status = 404;
-        ctx.body = { error: error.message };
-      } else {
-        ctx.status = 500;
-        ctx.body = { error: error.message };
+      switch (error.message) {
+        case 'Invalid selected option.':
+        case 'Question has already been answered.':
+        case 'Missing required fields.':
+        case 'Only Integer value accepted in selectedOption.':
+          ctx.status = 400;
+          ctx.body = { error: error.message };
+          break;
+        default:
+          ctx.status = 500;
+          ctx.body = { error: error.message };
+          break;
       }
     }
   }
@@ -71,12 +91,20 @@ class QuizController {
       ctx.status = 200;
       ctx.body = {
         userId: results.userId,
-        score: results.score,
+        totalScore: results.score,
         quizzes: results.quizzes as QuizResult[],
       };
     } catch (error: any) {
-      ctx.status = 500;
-      ctx.body = { error: error.message };
+      switch(error.message) {
+        case 'The User attempt for the quiz not found.':
+          ctx.status = 404;
+          ctx.body = { error: error.message };
+          break;
+        default:
+          ctx.status = 500;
+          ctx.body = { error: error.message };
+          break;
+      }
     }
   }
 

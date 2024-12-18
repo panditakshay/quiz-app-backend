@@ -24,12 +24,6 @@ export interface Result {
   answers: Answer[];
 }
 
-export interface SanitizedQuestion {
-  id: string;
-  text: string;
-  options: string[];
-}
-
 export interface QuizResult {
   quizId: string;
   score: number;
