@@ -50,32 +50,32 @@ Follow the steps below to set up and run the service:
 
 If you prefer to run the service directly on your local machine, follow these steps:
 
-1. Install dependencies:
+   Install dependencies:
 
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
-2. Build the TypeScript code:
+   Build the TypeScript code:
 
-   \`\`\`bash
+   ```bash
    npm run build
-   \`\`\`
+   ```
 
-3. Start the application:
+   Start the application:
 
-   \`\`\`bash
+   ```bash
    npm start
-   \`\`\`
+   ```
 
-   - The service will start on port **3000** by default.  
-   - Access the API documentation at: **\`<http://localhost:3000/docs\`>**.
+  The service will start on port **3000** by default.  
+  Access the API documentation at: **\`<http://localhost:3000/docs\`>**.
 
-4. For development mode with live reload, use:
+   For development mode with live reload, use:
 
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
 ### **7. Running Tests**
 
