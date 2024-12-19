@@ -1,6 +1,6 @@
 import { Answer, Quiz } from '../types/quiz';
 import { findQuestionFromQuizzes, generateSequentialId, removeAnswersBeforeDisplaying, validateAndGenerateQuestionIds } from '../utils/utils';
-import { validateAndMarkQuestionAnswered, validateAnswerSubmissionInput, validateQuizCreate, validateSelectedOption } from '../utils/validation';
+import { validateAndMarkQuestionAnswered, validateAnswerSubmissionInput, validateQuizCreate, validateSelectedOption, validateUserAttempt } from '../utils/validation';
 
 class QuizService {
     // Mock in-memory database (as per requirement doc)
@@ -77,11 +77,8 @@ class QuizService {
 
     getResults(userId: string) {
         // Check if the user has attempted any quizzes
-        const userAttempts = this.quizAttemptsByUser.get(userId);
-        if (!userAttempts) {
-           throw new Error('The User attempt for the quiz not found.');
-        }
-
+        const userAttempts = validateUserAttempt(this.quizAttemptsByUser, userId);
+        
         // Initialize collective score and quiz results
         let collectiveScore = 0;
         const quizzesResults: { quizId: string; score: number; answers: Answer[]; }[] = [];

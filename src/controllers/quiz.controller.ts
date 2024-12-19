@@ -68,6 +68,11 @@ class QuizController {
       ctx.body = result;
     } catch (error: any) {
       switch (error.message) {
+        case 'Quiz not found.':
+        case 'Question not found.':
+          ctx.status = 404;
+          ctx.body = { error: error.message };
+          break;
         case 'Invalid selected option.':
         case 'Question has already been answered.':
         case 'Missing required fields.':

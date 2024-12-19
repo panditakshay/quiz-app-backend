@@ -5,6 +5,7 @@ import quizRoutes from './routes/quizRoutes';
 import 'dotenv/config';
 import { koaSwagger } from 'koa2-swagger-ui';
 import { swaggerSpec } from './swaggerConfig';
+import QuizService from './services/quiz.service';
 
 const app = new Koa();
 const router = new Router();
@@ -20,6 +21,10 @@ if (process.env.NODE_ENV !== 'test') {
     })
   );
 }
+
+// Needed for mocking internal server error in service for testing purposes
+const quizService = new QuizService();
+app.context.quizService = quizService; // Attach quizService to app context
 
 // Middleware
 app.use(bodyParser());

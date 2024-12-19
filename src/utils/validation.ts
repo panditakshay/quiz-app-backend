@@ -1,4 +1,4 @@
-import { Question, Quiz } from "../types/quiz";
+import { Answer, Question, Quiz } from "../types/quiz";
 
 function validateQuizCreate(title: string, questions: Quiz['questions']){
     if (
@@ -67,7 +67,7 @@ function validateAnswerSubmissionInput(userId: string, questionId: string, quizI
 }
 
 function validateSelectedOption(selectedOption: number, question: Question) {
-    if (selectedOption < 1 || selectedOption >= question.options.length) {
+    if (selectedOption < 1 || selectedOption > question.options.length) {
         throw new Error('Invalid selected option.');
     }
 }
@@ -78,6 +78,14 @@ function validateAndMarkQuestionAnswered(quizAttemptByUser: { answers: { questio
     }
 }
 
+function validateUserAttempt(quizAttemptsByUser: Map<string, Map<string, { answers: Answer[], quizId: string }>>, userId: string) {
+    const userAttempts = quizAttemptsByUser.get(userId);
+    if (!userAttempts) {
+        throw new Error('The User attempt for the quiz not found.');
+    }
+    return userAttempts;
+}
+
 export { 
     validateQuizCreate,  
     validateCorrectOption,
@@ -86,4 +94,5 @@ export {
     validateAndMarkQuestionAnswered,
     validateQuiz,
     validateQuestion,
+    validateUserAttempt
 };
