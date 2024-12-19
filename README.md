@@ -37,6 +37,7 @@ This will:
 ### **4. Access the Service**
 
 - The API will be available at: **`http://localhost:3000/docs`**
+- Please ensure that PORT value in .env is not different than 3000
 
 ### **5. Stop the Service**
 
