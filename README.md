@@ -36,7 +36,7 @@ Follow the steps below to set up and run the service:
 
 ### **4. Access the Service**
 
-- The API will be available at: **`http://localhost:3000`**
+- The API will be available at: **`http://localhost:3000/docs`**
 
 ### **5. Stop the Service**
 
@@ -115,7 +115,7 @@ The following endpoints are available in the Quiz Service API:
 | **POST**   | `/quiz`                 | Create a new quiz.                  |
 | **GET**    | `/quiz/:quizId`         | Retrieve quiz details (no answers). |
 | **POST**   | `/quiz/:quizId/answer`  | Submit an answer for a quiz.        |
-| **GET**    | `/results/:userId`      | Retrieve quiz results for a user.   |
+| **GET**    | `quiz/score/:userId`    | Retrieve quiz results for a user.   |
 
 ---
 
@@ -149,7 +149,7 @@ The following endpoints are available in the Quiz Service API:
 
 If you encounter any issues or have questions, please reach out to me at:
 
-- **Email**: [akshaycpandit19@gmail.com]
+- **Email**: <akshaycpandit19@gmail.com>
 - **GitHub**: <https://github.com/panditakshay>
 
 ---
