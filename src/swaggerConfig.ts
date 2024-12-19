@@ -1,16 +1,16 @@
-import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerJSDoc from "swagger-jsdoc";
 
 /**
  * Swagger definition with general API metadata
  */
 const swaggerDefinition = {
-  openapi: '3.0.0', // OpenAPI 3.0 specification
+  openapi: "3.0.0", // OpenAPI 3.0 specification
   info: {
-    title: 'Quiz API', // API title
-    version: '1.0.0', // API version
-    description: 'A simple API to manage and execute quizzes', // API description
+    title: "Quiz API", // API title
+    version: "1.0.0", // API version
+    description: "A simple API to manage and execute quizzes", // API description
   },
-  basePath: '/', // Base path for all endpoints
+  basePath: "/", // Base path for all endpoints
 };
 
 /**
@@ -18,7 +18,7 @@ const swaggerDefinition = {
  */
 const options = {
   swaggerDefinition,
-  apis: ['./src/routes/*.ts'], // Path to route files with Swagger annotations
+  apis: ["./src/routes/*.ts"], // Path to route files with Swagger annotations
 };
 
 // Generate the Swagger specification

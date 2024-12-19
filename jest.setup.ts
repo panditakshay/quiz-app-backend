@@ -1,1 +1,1 @@
-jest.mock('koa2-swagger-ui');
+jest.mock("koa2-swagger-ui");

@@ -16,20 +16,20 @@ Follow the steps below to set up and run the service:
 
 ### **2. Clone the Repository**
 
-   ```bash
-   git clone <your-repository-url>
-   cd <your-repository-folder>
-   ```
+```bash
+git clone <your-repository-url>
+cd <your-repository-folder>
+```
 
 ### **3. Start the Service (Docker)**
 
-   Run the following command in the project root directory:
+Run the following command in the project root directory:
 
-   ```bash
-   docker-compose up
-   ```
+```bash
+docker-compose up
+```
 
-   This will:
+This will:
 
 - Build the Docker image.
 - Start the service on port `3000`.
@@ -40,57 +40,56 @@ Follow the steps below to set up and run the service:
 
 ### **5. Stop the Service**
 
-   To stop the running service, press `Ctrl+C` in the terminal or run:
+To stop the running service, press `Ctrl+C` in the terminal or run:
 
-   ```bash
-   docker-compose down
-   ```
+```bash
+docker-compose down
+```
 
 ### **6. Running the Service (Without Docker)**
 
 If you prefer to run the service directly on your local machine, follow these steps:
 
-   Install dependencies:
+Install dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-   Copy/Create .env file:
+Copy/Create .env file:
 
-   ```bash
-   cp .env-example .env
-   ```
+```bash
+cp .env-example .env
+```
 
-   Build the TypeScript code:
+Build the TypeScript code:
 
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
 
-   Start the application:
+Start the application:
 
-   ```bash
-   npm start
-   ```
+```bash
+npm start
+```
 
-  The service will start on port **3000** by default.  
-  Access the API documentation at: **<http://localhost:3000/docs>**.
+The service will start on port **3000** by default.  
+ Access the API documentation at: **<http://localhost:3000/docs>**.
 
-   For development mode with live reload, use:
+For development mode with live reload, use:
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
 ### **7. Running Tests**
 
-   This project uses Jest for testing, and the tests can be executed using the following steps:
+This project uses Jest for testing, and the tests can be executed using the following steps:
 
-   ```bash
-   npm test -- --runInBand
-   ```
-
+```bash
+npm test -- --runInBand
+```
 
 ---
 
@@ -136,7 +135,7 @@ CMD ["npm", "start"]
 The `docker-compose.yml` file defines the services, ports, and volumes required to run the application in development mode.
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   app:
     build:
@@ -157,24 +156,27 @@ services:
 The following endpoints are available in the Quiz Service API:
 
 | **Method** | **Endpoint**            | **Description**                     |
-|------------|-------------------------|-------------------------------------|
+| ---------- | ----------------------- | ----------------------------------- |
 | **POST**   | `/quiz`                 | Create a new quiz.                  |
 | **GET**    | `/quiz/:quizId`         | Retrieve quiz details (no answers). |
-| **POST**   | `/quiz/:quizId/answers`  | Submit an answer for a quiz.        |
-| **GET**    | `/quiz/score/:userId`    | Retrieve quiz results for a user.   |
+| **POST**   | `/quiz/:quizId/answers` | Submit an answer for a quiz.        |
+| **GET**    | `/quiz/score/:userId`   | Retrieve quiz results for a user.   |
 
 ---
 
 ## **Known Issues / Limitations**
 
 1. **In-Memory Database**:
+
    - The service uses an in-memory database (`Map`) for storing quizzes and user attempts.
    - All data will be lost when the service restarts.
 
 2. **Scalability**:
+
    - Since the service runs in a single container, it may not scale effectively under heavy load.
 
 3. **Data Persistence**:
+
    - No persistent storage is implemented. For production use, integrate a database like MongoDB or PostgreSQL.
 
 4. **Input Validation**:

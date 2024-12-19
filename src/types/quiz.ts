@@ -4,19 +4,19 @@ export interface Question {
   options: string[];
   correctOption: number; // index of the correct option
 }
-  
+
 export interface Quiz {
   id: string;
   title: string;
   questions: Question[];
 }
-  
+
 export interface Answer {
   questionId: string;
   selectedOption: number;
   isCorrect: boolean;
 }
-  
+
 export interface Result {
   quizId: string;
   userId: string;
@@ -29,4 +29,3 @@ export interface QuizResult {
   score: number;
   answers: Answer[];
 }
-  

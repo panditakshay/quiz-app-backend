@@ -1,6 +1,6 @@
-import Router from 'koa-router';
-import QuizController from '../controllers/quiz.controller';
-import QuizService from '../services/quiz.service';
+import Router from "koa-router";
+import QuizController from "../controllers/quiz.controller";
+import QuizService from "../services/quiz.service";
 
 const quizController = new QuizController();
 const router = new Router();
@@ -37,7 +37,7 @@ const router = new Router();
  *       201:
  *         description: Quiz created successfully
  */
-router.post('/', quizController.createQuiz); // Create a quiz
+router.post("/", quizController.createQuiz); // Create a quiz
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ router.post('/', quizController.createQuiz); // Create a quiz
  *       404:
  *         description: Quiz not found
  */
-router.get('/:id', quizController.getQuiz);  // Get a quiz by ID
+router.get("/:id", quizController.getQuiz); // Get a quiz by ID
 
 /**
  * @swagger
@@ -101,7 +101,7 @@ router.get('/:id', quizController.getQuiz);  // Get a quiz by ID
  *       404:
  *         description: Quiz or question not found
  */
-router.post('/:id/answers', quizController.submitAnswer); // Submit an answer for a question
+router.post("/:id/answers", quizController.submitAnswer); // Submit an answer for a question
 
 /**
  * @swagger
@@ -129,6 +129,6 @@ router.post('/:id/answers', quizController.submitAnswer); // Submit an answer fo
  *       404:
  *         description: User not found
  */
-router.get('/score/:id', quizController.getResults); // Get total score for a user
+router.get("/score/:id", quizController.getResults); // Get total score for a user
 
 export default router;
