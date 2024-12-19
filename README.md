@@ -56,6 +56,12 @@ If you prefer to run the service directly on your local machine, follow these st
    npm install
    ```
 
+   Copy/Create .env file:
+
+   ```bash
+   cp .env-example .env
+   ```
+
    Build the TypeScript code:
 
    ```bash
