@@ -21,7 +21,7 @@ Follow the steps below to set up and run the service:
    cd <your-repository-folder>
    ```
 
-### **3. Start the Service**
+### **3. Start the Service (Docker)**
 
    Run the following command in the project root directory:
 
@@ -45,6 +45,46 @@ Follow the steps below to set up and run the service:
    ```bash
    docker-compose down
    ```
+
+### **6. Running the Service (Without Docker)**
+
+If you prefer to run the service directly on your local machine, follow these steps:
+
+1. Install dependencies:
+
+   \`\`\`bash
+   npm install
+   \`\`\`
+
+2. Build the TypeScript code:
+
+   \`\`\`bash
+   npm run build
+   \`\`\`
+
+3. Start the application:
+
+   \`\`\`bash
+   npm start
+   \`\`\`
+
+   - The service will start on port **3000** by default.  
+   - Access the API documentation at: **\`<http://localhost:3000/docs\`>**.
+
+4. For development mode with live reload, use:
+
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+
+### **7. Running Tests**
+
+   This project uses Jest for testing, and the tests can be executed using the following steps:
+
+   ```bash
+   npm test -- --runInBand
+   ```
+
 
 ---
 
