@@ -69,7 +69,7 @@ If you prefer to run the service directly on your local machine, follow these st
    ```
 
   The service will start on port **3000** by default.  
-  Access the API documentation at: **\`<http://localhost:3000/docs\`>**.
+  Access the API documentation at: **<http://localhost:3000/docs>**.
 
    For development mode with live reload, use:
 
