@@ -11,6 +11,10 @@ RUN npm install
 # Copy the application files
 COPY . .
 
+
+# Copy the .env file (optional: secure handling of secrets)
+COPY .env.example .env
+
 # Build the TypeScript code
 RUN npm run build
 

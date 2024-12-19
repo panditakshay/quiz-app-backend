@@ -114,7 +114,7 @@ The following endpoints are available in the Quiz Service API:
 |------------|-------------------------|-------------------------------------|
 | **POST**   | `/quiz`                 | Create a new quiz.                  |
 | **GET**    | `/quiz/:quizId`         | Retrieve quiz details (no answers). |
-| **POST**   | `/quiz/:quizId/answer`  | Submit an answer for a quiz.        |
+| **POST**   | `/quiz/:quizId/answers`  | Submit an answer for a quiz.        |
 | **GET**    | `/quiz/score/:userId`    | Retrieve quiz results for a user.   |
 
 ---
